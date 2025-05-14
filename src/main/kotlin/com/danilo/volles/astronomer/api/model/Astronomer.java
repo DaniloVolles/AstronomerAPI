@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-@Document(collection = "professors")
+@Document(collection = "astronomers")
 public class Astronomer {
 
     @Id
