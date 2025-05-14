@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Data
 @Document(collection = "professors")
-public class Professor {
+public class Astronomer {
 
     @Id
     private UUID id;

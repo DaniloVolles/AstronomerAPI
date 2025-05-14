@@ -21,5 +21,5 @@ public class CelestialObject {
     private String discoveryMethod;
     private String discoveryDescription;
 
-    private UUID professorId;
+    private UUID astronomerId;
 }
