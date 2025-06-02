@@ -51,7 +51,7 @@ public class AstronomerController implements AstronomerEndpoints {
     }
 
     @Override
-    @PatchMapping("/{id}")
+    @PatchMapping("/inactive/{id}")
     public ResponseEntity<AstronomerResponseDTO> inactivateAstronomerById(@PathVariable UUID id) {
         return null;
     }
