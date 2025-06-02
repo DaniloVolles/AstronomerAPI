@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### TesteController ###
+/src/main/kotlin/com/danilo/volles/astronomer/api/controller/TestController.java
