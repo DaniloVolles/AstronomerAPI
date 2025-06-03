@@ -1,0 +1,19 @@
+package com.danilo.volles.astronomer.api.service;
+
+import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
+import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
+import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public interface AstronomerService {
+    AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO);
+    List<AstronomerResponseDTO> getAstronomers();
+    AstronomerResponseDTO getAstronomerById(String id);
+    AstronomerResponseDTO getAstronomerByCity(String City);
+    CelestialObjectResponseDTO getDiscoveriesByAstronomerName(String AstronomerName);
+    AstronomerResponseDTO updateAstronomerById(String name);
+    AstronomerResponseDTO inactivateAstronomerById(String id);
+}

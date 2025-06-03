@@ -5,14 +5,25 @@ import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.CityRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
+import com.danilo.volles.astronomer.api.service.AddressService;
+import com.danilo.volles.astronomer.api.service.AstronomerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/astronomer")
 public class AstronomerController implements AstronomerEndpoints {
+
+    private AddressService addressService;
+    private AstronomerService astronomerService;
+
+    public AstronomerController(AddressService addressService, AstronomerService astronomerService) {
+        this.addressService = addressService;
+        this.astronomerService = astronomerService;
+    }
 
     @Override
     @PostMapping
@@ -22,7 +33,7 @@ public class AstronomerController implements AstronomerEndpoints {
 
     @Override
     @GetMapping
-    public ResponseEntity<AstronomerResponseDTO> getAllAstronomers() {
+    public ResponseEntity<List<AstronomerResponseDTO>> getAllAstronomers() {
         return null;
     }
 

@@ -5,7 +5,6 @@ import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class AddressService {
