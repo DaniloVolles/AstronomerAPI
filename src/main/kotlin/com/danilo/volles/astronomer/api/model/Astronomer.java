@@ -1,5 +1,7 @@
 package com.danilo.volles.astronomer.api.model;
 
+import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
+import com.danilo.volles.astronomer.api.util.DateValidator;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,4 +24,16 @@ public class Astronomer {
     private String researchArea;
     private String institution;
     private Address address;
+
+    public Astronomer(AstronomerRequestDTO dto, Degree degree, Address address) {
+        this.id = UUID.randomUUID();
+        this.fullName = dto.fullName();
+        this.birthDate = DateValidator.getLocalDateFromString(dto.birthDate());
+        this.email = dto.email();
+        this.phone = dto.phone();
+        this.degree = degree;
+        this.researchArea = dto.researchArea();
+        this.institution = dto.institution();
+        this.address = address;
+    }
 }

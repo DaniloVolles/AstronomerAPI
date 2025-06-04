@@ -2,8 +2,10 @@ package com.danilo.volles.astronomer.api.controller;
 
 import com.danilo.volles.astronomer.api.dto.request.AstronomerNameDTO;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
+import com.danilo.volles.astronomer.api.dto.request.AttributeRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.CityRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
+import com.danilo.volles.astronomer.api.dto.response.AttributeResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import org.springframework.http.ResponseEntity;
 
@@ -15,6 +17,7 @@ public interface AstronomerEndpoints {
     ResponseEntity<List<AstronomerResponseDTO>> getAllAstronomers();
     ResponseEntity<AstronomerResponseDTO> getAstronomerById(UUID id);
     ResponseEntity<AstronomerResponseDTO> getAstronomerByCity(CityRequestDTO city);
+    ResponseEntity<AttributeResponseDTO> attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO);
     ResponseEntity<CelestialObjectResponseDTO> getDiscoveriesByAstronomerName(AstronomerNameDTO astronomer);
     ResponseEntity<AstronomerResponseDTO> updateAstronomeById(UUID id);
     ResponseEntity<AstronomerResponseDTO> inactivateAstronomerById(UUID id);

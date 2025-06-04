@@ -1,5 +1,7 @@
 package com.danilo.volles.astronomer.api.model;
 
+import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
+import com.danilo.volles.astronomer.api.util.Constants;
 import lombok.Data;
 
 /**
@@ -14,4 +16,13 @@ public class Address {
     private String city;
     private String state;
     private String country;
+
+    public Address(ViaCepResponse viaCepResponse) {
+        this.street = viaCepResponse.logradouro();
+        this.complement = viaCepResponse.complemento();
+        this.neighborhood = viaCepResponse.bairro();
+        this.city = viaCepResponse.localidade();
+        this.state = viaCepResponse.uf();
+        this.country = Constants.Country.BR;
+    }
 }

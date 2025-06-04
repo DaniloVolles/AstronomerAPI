@@ -15,6 +15,7 @@ public class AddressService {
     }
 
     public ViaCepResponse getAddress(String cep) {
+        // TODO - passar para Inglês
         return Optional.ofNullable(cepClient.searchAddress(cep))
                 .orElseThrow(() -> new RuntimeException("Nenhum endereço encontrado com esse cep: " + cep));
     }
