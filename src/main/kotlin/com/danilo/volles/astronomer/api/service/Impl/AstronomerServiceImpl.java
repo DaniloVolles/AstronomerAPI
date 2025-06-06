@@ -5,6 +5,7 @@ import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import com.danilo.volles.astronomer.api.exception.InvalidCepCodeException;
+import com.danilo.volles.astronomer.api.exception.ObjectNotFoundException;
 import com.danilo.volles.astronomer.api.model.Address;
 import com.danilo.volles.astronomer.api.model.Astronomer;
 import com.danilo.volles.astronomer.api.model.Degree;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,7 +44,7 @@ public class AstronomerServiceImpl implements AstronomerService {
 
         Astronomer savedAstronomer = astronomerRepository.save(new Astronomer(requestDTO, degree, address));
 
-        return astronomerToResponseDTO(savedAstronomer);
+        return entityToResponseDTO(savedAstronomer);
     }
 
     @Override
@@ -51,13 +53,16 @@ public class AstronomerServiceImpl implements AstronomerService {
         List<Astronomer> astronomers = astronomerRepository.findAll();
 
         return astronomers.stream()
-                .map(this::astronomerToResponseDTO)
+                .map(this::entityToResponseDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public AstronomerResponseDTO getAstronomerById(String id) {
-        return null;
+    public AstronomerResponseDTO getAstronomerById(UUID id) {
+        Astronomer astronomer = astronomerRepository.findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
+
+        return entityToResponseDTO(astronomer);
     }
 
     @Override
@@ -87,7 +92,7 @@ public class AstronomerServiceImpl implements AstronomerService {
         }
     }
 
-    private AstronomerResponseDTO astronomerToResponseDTO(Astronomer astronomer) {
+    private AstronomerResponseDTO entityToResponseDTO(Astronomer astronomer) {
         return new AstronomerResponseDTO(
                 astronomer.getFullName(),
                 astronomer.getEmail(),

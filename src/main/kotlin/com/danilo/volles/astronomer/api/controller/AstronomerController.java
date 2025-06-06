@@ -49,14 +49,17 @@ public class AstronomerController implements AstronomerEndpoints {
         var astronomer = astronomerService.getAstronomers();
         log.info("Astronomer list returned successfully");
         return ResponseEntity
-                .status(HttpStatus.FOUND)
-                .body(astronomer);
+                .ok(astronomer);
     }
 
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<AstronomerResponseDTO> getAstronomerById(@PathVariable UUID id) {
-        return null;
+        log.info("Astronomer endpoint accessed: getAstronomerById");
+        var astronomer = astronomerService.getAstronomerById(id);
+        log.info("Astronomer returned successfully with id {}", id);
+        return ResponseEntity
+                .ok(astronomer);
     }
 
     @Override

@@ -6,12 +6,13 @@ import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface AstronomerService {
     AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO);
     List<AstronomerResponseDTO> getAstronomers();
-    AstronomerResponseDTO getAstronomerById(String id);
+    AstronomerResponseDTO getAstronomerById(UUID id);
     AstronomerResponseDTO getAstronomerByCity(String City);
     CelestialObjectResponseDTO getDiscoveriesByAstronomerName(String AstronomerName);
     AstronomerResponseDTO updateAstronomerById(String name);

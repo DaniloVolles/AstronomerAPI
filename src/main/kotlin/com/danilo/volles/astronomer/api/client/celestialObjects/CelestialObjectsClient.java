@@ -7,7 +7,9 @@ import org.springframework.ws.soap.client.core.SoapActionCallback;
 public class CelestialObjectsClient extends WebServiceGatewaySupport {
 
     public GetAllCelestialObjectsResponse getAllCelestialObjects() {
+
         GetAllCelestialObjectsRequest req = new GetAllCelestialObjectsRequest();
+
         return (GetAllCelestialObjectsResponse) getWebServiceTemplate()
                 .marshalSendAndReceive(
                         "http://localhost:9090/ws",
