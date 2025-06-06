@@ -45,7 +45,12 @@ public class AstronomerController implements AstronomerEndpoints {
     @Override
     @GetMapping
     public ResponseEntity<List<AstronomerResponseDTO>> getAllAstronomers() {
-        return null;
+        log.info("Astronomer endpoint accessed: getAllAstronomers");
+        var astronomer = astronomerService.getAstronomers();
+        log.info("Astronomer list returned successfully");
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .body(astronomer);
     }
 
     @Override
