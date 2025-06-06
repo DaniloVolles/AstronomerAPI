@@ -5,7 +5,6 @@ import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import com.danilo.volles.astronomer.api.exception.InvalidCepCodeException;
-import com.danilo.volles.astronomer.api.exception.InvalidDegreeValueException;
 import com.danilo.volles.astronomer.api.model.Address;
 import com.danilo.volles.astronomer.api.model.Astronomer;
 import com.danilo.volles.astronomer.api.model.Degree;
@@ -16,8 +15,8 @@ import com.danilo.volles.astronomer.api.util.CepValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
@@ -34,29 +33,26 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO) {
 
-        if (!CepValidator.isCodeBrazilian(requestDTO.cep())) {
-            log.error("Brazilian CEP code expected");
-            throw new InvalidCepCodeException();
-        }
+        verifyCepCode(requestDTO.cep());
 
-        Degree degree = getDegreeFromString(requestDTO.degree());
+        Degree degree = Degree.fromString(requestDTO.degree());
 
         ViaCepResponse cepResponse = addressService.getAddress(requestDTO.cep());
-
         Address address = new Address(cepResponse);
 
         Astronomer savedAstronomer = astronomerRepository.save(new Astronomer(requestDTO, degree, address));
 
-        return new AstronomerResponseDTO(
-                savedAstronomer.getFullName(),
-                savedAstronomer.getEmail(),
-                savedAstronomer.getInstitution()
-        );
+        return astronomerToResponseDTO(savedAstronomer);
     }
 
     @Override
     public List<AstronomerResponseDTO> getAstronomers() {
-        return List.of();
+
+        List<Astronomer> astronomers = astronomerRepository.findAll();
+
+        return astronomers.stream()
+                .map(this::astronomerToResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -84,11 +80,18 @@ public class AstronomerServiceImpl implements AstronomerService {
         return null;
     }
 
-    private static Degree getDegreeFromString(final String value) {
-        return Arrays.stream(Degree.values())
-                .filter(degree -> degree.name().equalsIgnoreCase(value))
-                .findFirst()
-                .orElseThrow(InvalidDegreeValueException::new);
+    private static void verifyCepCode(String cep) {
+        if (!CepValidator.isCodeBrazilian(cep)) {
+            log.error("Brazilian CEP code expected");
+            throw new InvalidCepCodeException();
+        }
     }
 
+    private AstronomerResponseDTO astronomerToResponseDTO(Astronomer astronomer) {
+        return new AstronomerResponseDTO(
+                astronomer.getFullName(),
+                astronomer.getEmail(),
+                astronomer.getInstitution()
+        );
+    }
 }
