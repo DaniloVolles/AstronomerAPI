@@ -3,15 +3,16 @@ package com.danilo.volles.astronomer.api.controller;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerNameDTO;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.AttributeRequestDTO;
-import com.danilo.volles.astronomer.api.dto.request.CityRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.ApiResponse;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.AttributeResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import com.danilo.volles.astronomer.api.service.AstronomerService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/astronomer")
 public class AstronomerController implements AstronomerEndpoints {
@@ -63,10 +65,12 @@ public class AstronomerController implements AstronomerEndpoints {
 
     @Override
     @GetMapping("/city")
-    public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(@Valid @RequestBody CityRequestDTO reqDTO) {
+    public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(
+            @RequestParam @NotBlank String city
+    ) {
         log.info("Astronomer endpoint accessed: getAstronomersByCity");
-        var astronomers = astronomerService.getAstronomerByCity(reqDTO.city());
-        log.info("Astronomers returned successfully with city name {}", reqDTO.city());
+        var astronomers = astronomerService.getAstronomerByCity(city);
+        log.info("Astronomers returned successfully with city name {}", city);
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomers));
     }
