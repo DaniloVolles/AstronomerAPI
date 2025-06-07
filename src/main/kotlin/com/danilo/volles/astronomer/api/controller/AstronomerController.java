@@ -34,10 +34,10 @@ public class AstronomerController implements AstronomerEndpoints {
     @Override
     @PostMapping
     public ResponseEntity<ApiResponse<AstronomerResponseDTO>> saveAstronomer(@Valid @RequestBody AstronomerRequestDTO astronomerDTO) {
-        log.info("Astronomer endpoint accessed: saveAstronomer");
+        log.info("[POST] /astronomer :: Endpoint accessed: saveAstronomer");
         var astronomer = astronomerService.saveAstronomer(astronomerDTO);
         var location = URI.create("/astronomers/" + astronomer.id());
-        log.info("Astronomer saved successfully");
+        log.info("[POST] /astronomer :: Astronomer saved successfully {}", astronomer.id());
         return ResponseEntity
                 .created(location)
                 .body(new ApiResponse<>(astronomer));
@@ -46,9 +46,9 @@ public class AstronomerController implements AstronomerEndpoints {
     @Override
     @GetMapping
     public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAllAstronomers() {
-        log.info("Astronomer endpoint accessed: getAllAstronomers");
+        log.info("[GET] /astronomer :: Endpoint accessed: getAllAstronomers");
         var astronomer = astronomerService.getAstronomers();
-        log.info("Astronomer list returned successfully");
+        log.info("[GET] /astronomer :: Astronomer list returned successfully");
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomer));
     }
@@ -56,9 +56,9 @@ public class AstronomerController implements AstronomerEndpoints {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AstronomerResponseDTO>> getAstronomerById(@PathVariable UUID id) {
-        log.info("Astronomer endpoint accessed: getAstronomerById");
+        log.info("[GET] /astronomer/{id} :: Endpoint accessed: getAstronomerById");
         var astronomer = astronomerService.getAstronomerById(id);
-        log.info("Astronomer returned successfully with id {}", id);
+        log.info("[GET] /astronomer/{id} :: Astronomer returned successfully with id {}", id);
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomer));
     }
@@ -68,9 +68,9 @@ public class AstronomerController implements AstronomerEndpoints {
     public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(
             @RequestParam @NotBlank String city
     ) {
-        log.info("Astronomer endpoint accessed: getAstronomersByCity");
+        log.info("[GET] /astronomer/city :: Endpoint accessed: getAstronomersByCity");
         var astronomers = astronomerService.getAstronomerByCity(city);
-        log.info("Astronomers returned successfully with city name {}", city);
+        log.info("[GET] /astronomer/{id} :: Astronomers returned successfully with city name {}", city);
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomers));
     }
