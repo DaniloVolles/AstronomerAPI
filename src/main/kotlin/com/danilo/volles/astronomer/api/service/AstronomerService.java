@@ -13,7 +13,7 @@ public interface AstronomerService {
     AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO);
     List<AstronomerResponseDTO> getAstronomers();
     AstronomerResponseDTO getAstronomerById(UUID id);
-    AstronomerResponseDTO getAstronomerByCity(String City);
+    List<AstronomerResponseDTO> getAstronomerByCity(String city);
     CelestialObjectResponseDTO getDiscoveriesByAstronomerName(String AstronomerName);
     AstronomerResponseDTO updateAstronomerById(String name);
     AstronomerResponseDTO inactivateAstronomerById(String id);

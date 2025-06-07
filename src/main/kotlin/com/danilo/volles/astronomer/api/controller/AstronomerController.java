@@ -63,12 +63,16 @@ public class AstronomerController implements AstronomerEndpoints {
 
     @Override
     @GetMapping("/city")
-    public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(@RequestBody CityRequestDTO city) {
-        return null;
+    public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(@Valid @RequestBody CityRequestDTO reqDTO) {
+        log.info("Astronomer endpoint accessed: getAstronomersByCity");
+        var astronomers = astronomerService.getAstronomerByCity(reqDTO.city());
+        log.info("Astronomers returned successfully with city name {}", reqDTO.city());
+        return ResponseEntity
+                .ok(new ApiResponse<>(astronomers));
     }
 
     @Override
-    public ResponseEntity<ApiResponse<AttributeResponseDTO>>  attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO) {
+    public ResponseEntity<ApiResponse<AttributeResponseDTO>> attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO) {
         return null;
     }
 

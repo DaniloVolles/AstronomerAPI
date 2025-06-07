@@ -52,6 +52,8 @@ public class AstronomerServiceImpl implements AstronomerService {
 
         List<Astronomer> astronomers = astronomerRepository.findAll();
 
+        verifyEmptyAstronomersList(astronomers);
+
         return astronomers.stream()
                 .map(this::entityToResponseDTO)
                 .collect(Collectors.toList());
@@ -66,8 +68,15 @@ public class AstronomerServiceImpl implements AstronomerService {
     }
 
     @Override
-    public AstronomerResponseDTO getAstronomerByCity(String City) {
-        return null;
+    public List<AstronomerResponseDTO> getAstronomerByCity(String city) {
+
+        List<Astronomer> astronomers = astronomerRepository.findAllByAddress_CityIgnoreCase(city.trim());
+
+        verifyEmptyAstronomersList(astronomers);
+
+        return astronomers.stream()
+                .map(this::entityToResponseDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -83,6 +92,12 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public AstronomerResponseDTO inactivateAstronomerById(String id) {
         return null;
+    }
+
+    private static void verifyEmptyAstronomersList(List<Astronomer> astronomers){
+        if (astronomers.isEmpty()) {
+            throw new ObjectNotFoundException();
+        }
     }
 
     private static void verifyCepCode(String cep) {
