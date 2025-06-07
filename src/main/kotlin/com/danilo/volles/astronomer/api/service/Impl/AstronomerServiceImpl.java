@@ -94,6 +94,7 @@ public class AstronomerServiceImpl implements AstronomerService {
 
     private AstronomerResponseDTO entityToResponseDTO(Astronomer astronomer) {
         return new AstronomerResponseDTO(
+                astronomer.getId(),
                 astronomer.getFullName(),
                 astronomer.getEmail(),
                 astronomer.getInstitution()

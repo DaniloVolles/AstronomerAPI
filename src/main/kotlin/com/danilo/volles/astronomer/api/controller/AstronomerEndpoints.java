@@ -4,6 +4,7 @@ import com.danilo.volles.astronomer.api.dto.request.AstronomerNameDTO;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.AttributeRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.CityRequestDTO;
+import com.danilo.volles.astronomer.api.dto.response.ApiResponse;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.AttributeResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
@@ -13,12 +14,12 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AstronomerEndpoints {
-    ResponseEntity<AstronomerResponseDTO> saveAstronomer(AstronomerRequestDTO astronomerDTO);
-    ResponseEntity<List<AstronomerResponseDTO>> getAllAstronomers();
-    ResponseEntity<AstronomerResponseDTO> getAstronomerById(UUID id);
-    ResponseEntity<AstronomerResponseDTO> getAstronomerByCity(CityRequestDTO city);
-    ResponseEntity<AttributeResponseDTO> attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO);
-    ResponseEntity<CelestialObjectResponseDTO> getDiscoveriesByAstronomerName(AstronomerNameDTO astronomer);
-    ResponseEntity<AstronomerResponseDTO> updateAstronomeById(UUID id);
-    ResponseEntity<AstronomerResponseDTO> inactivateAstronomerById(UUID id);
+    ResponseEntity<ApiResponse<AstronomerResponseDTO>> saveAstronomer(AstronomerRequestDTO astronomerDTO);
+    ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAllAstronomers();
+    ResponseEntity<ApiResponse<AstronomerResponseDTO>> getAstronomerById(UUID id);
+    ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(CityRequestDTO city);
+    ResponseEntity<ApiResponse<AttributeResponseDTO>> attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO);
+    ResponseEntity<ApiResponse<List<CelestialObjectResponseDTO>>> getDiscoveriesByAstronomerName(AstronomerNameDTO astronomer);
+    ResponseEntity<ApiResponse<AstronomerResponseDTO>> updateAstronomeById(UUID id);
+    ResponseEntity<ApiResponse<AstronomerResponseDTO>> inactivateAstronomerById(UUID id);
 }

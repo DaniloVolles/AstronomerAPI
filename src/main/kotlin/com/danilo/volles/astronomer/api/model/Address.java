@@ -3,12 +3,13 @@ package com.danilo.volles.astronomer.api.model;
 import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
 import com.danilo.volles.astronomer.api.util.Constants;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This class was written in english, but it refers to a brazillian address context
  * named as CEP (Cidade, Estado, País). Like a ZIP Code system.
  */
-@Data
+@Data @NoArgsConstructor
 public class Address {
     private String street;
     private String complement;

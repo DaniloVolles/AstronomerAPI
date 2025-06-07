@@ -4,17 +4,17 @@ import com.danilo.volles.astronomer.api.dto.request.AstronomerNameDTO;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.AttributeRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.CityRequestDTO;
+import com.danilo.volles.astronomer.api.dto.response.ApiResponse;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.AttributeResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
-import com.danilo.volles.astronomer.api.service.AddressService;
 import com.danilo.volles.astronomer.api.service.AstronomerService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,71 +23,70 @@ import java.util.UUID;
 @RequestMapping("/astronomer")
 public class AstronomerController implements AstronomerEndpoints {
 
-    private AddressService addressService;
-    private AstronomerService astronomerService;
+    private final AstronomerService astronomerService;
 
-    public AstronomerController(AddressService addressService, AstronomerService astronomerService) {
-        this.addressService = addressService;
+    public AstronomerController(AstronomerService astronomerService) {
         this.astronomerService = astronomerService;
     }
 
     @Override
     @PostMapping
-    public ResponseEntity<AstronomerResponseDTO> saveAstronomer(@Valid @RequestBody AstronomerRequestDTO astronomerDTO) {
+    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> saveAstronomer(@Valid @RequestBody AstronomerRequestDTO astronomerDTO) {
         log.info("Astronomer endpoint accessed: saveAstronomer");
         var astronomer = astronomerService.saveAstronomer(astronomerDTO);
+        var location = URI.create("/astronomers/" + astronomer.id());
         log.info("Astronomer saved successfully");
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(astronomer);
+                .created(location)
+                .body(new ApiResponse<>(astronomer));
     }
 
     @Override
     @GetMapping
-    public ResponseEntity<List<AstronomerResponseDTO>> getAllAstronomers() {
+    public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAllAstronomers() {
         log.info("Astronomer endpoint accessed: getAllAstronomers");
         var astronomer = astronomerService.getAstronomers();
         log.info("Astronomer list returned successfully");
         return ResponseEntity
-                .ok(astronomer);
+                .ok(new ApiResponse<>(astronomer));
     }
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<AstronomerResponseDTO> getAstronomerById(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> getAstronomerById(@PathVariable UUID id) {
         log.info("Astronomer endpoint accessed: getAstronomerById");
         var astronomer = astronomerService.getAstronomerById(id);
         log.info("Astronomer returned successfully with id {}", id);
         return ResponseEntity
-                .ok(astronomer);
+                .ok(new ApiResponse<>(astronomer));
     }
 
     @Override
     @GetMapping("/city")
-    public ResponseEntity<AstronomerResponseDTO> getAstronomerByCity(@RequestBody CityRequestDTO city) {
+    public ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(@RequestBody CityRequestDTO city) {
         return null;
     }
 
     @Override
-    public ResponseEntity<AttributeResponseDTO> attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO) {
+    public ResponseEntity<ApiResponse<AttributeResponseDTO>>  attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO) {
         return null;
     }
 
     @Override
     @GetMapping("/discoveries")
-    public ResponseEntity<CelestialObjectResponseDTO> getDiscoveriesByAstronomerName(@RequestBody AstronomerNameDTO astronomer) {
+    public ResponseEntity<ApiResponse<List<CelestialObjectResponseDTO>>> getDiscoveriesByAstronomerName(@RequestBody AstronomerNameDTO astronomer) {
         return null;
     }
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<AstronomerResponseDTO> updateAstronomeById(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> updateAstronomeById(@PathVariable UUID id) {
         return null;
     }
 
     @Override
     @PatchMapping("/inactive/{id}")
-    public ResponseEntity<AstronomerResponseDTO> inactivateAstronomerById(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> inactivateAstronomerById(@PathVariable UUID id) {
         return null;
     }
 }
