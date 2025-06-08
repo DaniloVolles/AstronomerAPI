@@ -101,9 +101,9 @@ public class AstronomerController implements AstronomerEndpoints {
 
     @Override
     @PatchMapping("/inactive/{id}")
-    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> inactivateAstronomerById(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> deactivateAstronomerById(@PathVariable UUID id) {
         log.info("[PATCH] /astronomer/inactive/{} :: Endpoint accessed: inactivateAstronomerById", id);
-        var astronomer = astronomerService.inactivateAstronomerById(id);
+        var astronomer = astronomerService.deactivateAstronomerById(id);
         log.info("[PATCH] /astronomer/inactive/{} :: Astronomer inactivated successfully", id);
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomer));

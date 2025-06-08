@@ -4,7 +4,6 @@ import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
-import com.danilo.volles.astronomer.api.exception.InvalidCepCodeException;
 import com.danilo.volles.astronomer.api.exception.ObjectNotFoundException;
 import com.danilo.volles.astronomer.api.model.Address;
 import com.danilo.volles.astronomer.api.model.Astronomer;
@@ -102,12 +101,12 @@ public class AstronomerServiceImpl implements AstronomerService {
 
 
     @Override
-    public AstronomerResponseDTO inactivateAstronomerById(UUID id) {
+    public AstronomerResponseDTO deactivateAstronomerById(UUID id) {
 
         Astronomer astronomer = this.findAstronomerById(id);
 
         if (astronomer.isActive()) {
-            astronomer.inactivate();
+            astronomer.deactivate();
             astronomerRepository.save(astronomer);
             return this.entityToResponseDTO(astronomer);
         }
@@ -117,11 +116,15 @@ public class AstronomerServiceImpl implements AstronomerService {
 
     private Astronomer findAstronomerById(UUID id) {
         return astronomerRepository.findById(id)
-                .orElseThrow(ObjectNotFoundException::new);
+                .orElseThrow(()->{
+                    log.error("Astronomer with id {} not found", id);
+                    return new ObjectNotFoundException();
+                });
     }
 
     private static void verifyEmptyAstronomersList(List<Astronomer> astronomers){
         if (astronomers.isEmpty()) {
+            log.error("No astronomers found");
             throw new ObjectNotFoundException();
         }
     }

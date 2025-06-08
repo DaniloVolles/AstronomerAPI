@@ -54,7 +54,7 @@ public class Astronomer {
         return this;
     }
 
-    public void inactivate(){
+    public void deactivate(){
         this.active = false;
     }
 }
