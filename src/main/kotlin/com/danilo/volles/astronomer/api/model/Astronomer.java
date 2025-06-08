@@ -26,6 +26,7 @@ public class Astronomer {
     private String researchArea;
     private String institution;
     private Address address;
+    private boolean active;
 
     public Astronomer(AstronomerRequestDTO dto, Degree degree, Address address) {
         this.id = UUID.randomUUID();
@@ -37,6 +38,7 @@ public class Astronomer {
         this.researchArea = dto.researchArea();
         this.institution = dto.institution();
         this.address = address;
+        this.active = dto.active();
     }
 
     public Astronomer applyUpdates(AstronomerRequestDTO dto, Degree degree, Address address) {
@@ -48,6 +50,11 @@ public class Astronomer {
         this.researchArea = dto.researchArea();
         this.institution = dto.institution();
         this.address = address;
+        this.active = dto.active();
         return this;
+    }
+
+    public void inactivate(){
+        this.active = false;
     }
 }

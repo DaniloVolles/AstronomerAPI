@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.danilo.volles.astronomer.api.util.CepValidator.verifyCepCode;
 
 @Slf4j
 @Component
@@ -37,7 +36,7 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO) {
 
-        verifyCepCode(requestDTO.cep());
+        CepValidator.verifyCepCode(requestDTO.cep());
 
         Degree degree = Degree.fromString(requestDTO.degree());
 
@@ -46,7 +45,7 @@ public class AstronomerServiceImpl implements AstronomerService {
 
         Astronomer savedAstronomer = astronomerRepository.save(new Astronomer(requestDTO, degree, address));
 
-        return entityToResponseDTO(savedAstronomer);
+        return this.entityToResponseDTO(savedAstronomer);
     }
 
     @Override
@@ -63,9 +62,7 @@ public class AstronomerServiceImpl implements AstronomerService {
 
     @Override
     public AstronomerResponseDTO getAstronomerById(UUID id) {
-        Astronomer astronomer = astronomerRepository.findById(id)
-                .orElseThrow(ObjectNotFoundException::new);
-
+        Astronomer astronomer = this.findAstronomerById(id);
         return entityToResponseDTO(astronomer);
     }
 
@@ -89,13 +86,12 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public AstronomerResponseDTO updateAstronomerById(UUID id, AstronomerRequestDTO requestDTO) {
 
-        verifyCepCode(requestDTO.cep());
+        CepValidator.verifyCepCode(requestDTO.cep());
 
         Degree degree = Degree.fromString(requestDTO.degree());
         Address address = new Address(addressService.getAddress(requestDTO.cep()));
 
-        Astronomer astronomer = astronomerRepository.findById(id)
-                .orElseThrow(ObjectNotFoundException::new);
+        Astronomer astronomer = this.findAstronomerById(id);
 
         Astronomer updatedAstronomer = astronomer.applyUpdates(requestDTO, degree, address);
 
@@ -104,9 +100,24 @@ public class AstronomerServiceImpl implements AstronomerService {
         return entityToResponseDTO(updatedAstronomer);
     }
 
+
     @Override
-    public AstronomerResponseDTO inactivateAstronomerById(String id) {
-        return null;
+    public AstronomerResponseDTO inactivateAstronomerById(UUID id) {
+
+        Astronomer astronomer = this.findAstronomerById(id);
+
+        if (astronomer.isActive()) {
+            astronomer.inactivate();
+            astronomerRepository.save(astronomer);
+            return this.entityToResponseDTO(astronomer);
+        }
+
+        return this.entityToResponseDTO(astronomer);
+    }
+
+    private Astronomer findAstronomerById(UUID id) {
+        return astronomerRepository.findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
     }
 
     private static void verifyEmptyAstronomersList(List<Astronomer> astronomers){
@@ -120,7 +131,8 @@ public class AstronomerServiceImpl implements AstronomerService {
                 astronomer.getId(),
                 astronomer.getFullName(),
                 astronomer.getEmail(),
-                astronomer.getInstitution()
+                astronomer.getInstitution(),
+                astronomer.isActive()
         );
     }
 }

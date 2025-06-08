@@ -6,6 +6,7 @@ public record AstronomerResponseDTO(
         UUID id,
         String fullName,
         String email,
-        String institution
+        String institution,
+        Boolean isActive
 ) {
 }

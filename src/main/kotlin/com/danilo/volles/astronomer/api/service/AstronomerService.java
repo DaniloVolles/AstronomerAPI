@@ -16,5 +16,5 @@ public interface AstronomerService {
     List<AstronomerResponseDTO> getAstronomerByCity(String city);
     CelestialObjectResponseDTO getDiscoveriesByAstronomerName(String AstronomerName);
     AstronomerResponseDTO updateAstronomerById(UUID id, AstronomerRequestDTO requestDTO);
-    AstronomerResponseDTO inactivateAstronomerById(String id);
+    AstronomerResponseDTO inactivateAstronomerById(UUID id);
 }

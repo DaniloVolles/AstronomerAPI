@@ -92,9 +92,9 @@ public class AstronomerController implements AstronomerEndpoints {
             @PathVariable UUID id,
             @Valid @RequestBody AstronomerRequestDTO requestDTO
     ) {
-        log.info("[PATCH] /astronomer/{} :: Endpoint accessed: updateAstronomeById", id);
+        log.info("[PUT] /astronomer/{} :: Endpoint accessed: updateAstronomeById", id);
         var astronomer = astronomerService.updateAstronomerById(id, requestDTO);
-        log.info("[PATCH] /astronomer/{} :: Astronomer updated successfully", id);
+        log.info("[PUT] /astronomer/{} :: Astronomer updated successfully", id);
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomer));
     }
@@ -102,6 +102,10 @@ public class AstronomerController implements AstronomerEndpoints {
     @Override
     @PatchMapping("/inactive/{id}")
     public ResponseEntity<ApiResponse<AstronomerResponseDTO>> inactivateAstronomerById(@PathVariable UUID id) {
-        return null;
+        log.info("[PATCH] /astronomer/inactive/{} :: Endpoint accessed: inactivateAstronomerById", id);
+        var astronomer = astronomerService.inactivateAstronomerById(id);
+        log.info("[PATCH] /astronomer/inactive/{} :: Astronomer inactivated successfully", id);
+        return ResponseEntity
+                .ok(new ApiResponse<>(astronomer));
     }
 }

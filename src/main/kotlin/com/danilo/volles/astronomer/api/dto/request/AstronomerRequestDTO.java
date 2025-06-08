@@ -39,6 +39,9 @@ public record AstronomerRequestDTO(
         @Pattern(
                 regexp = "^\\d{5}-?\\d{3}$",
                 message = "Invalid CEP format. Expected 8 digits, optionally formatted as '12345-678'")
-        String cep
+        String cep,
+
+        @NotNull(message = "active field is required")
+        Boolean active
 ) {
 }
