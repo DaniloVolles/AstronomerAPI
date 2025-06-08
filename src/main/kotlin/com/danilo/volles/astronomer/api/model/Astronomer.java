@@ -1,8 +1,6 @@
 package com.danilo.volles.astronomer.api.model;
 
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
-import com.danilo.volles.astronomer.api.dto.request.UpdateAstronomerRequestDTO;
-import com.danilo.volles.astronomer.api.util.CepValidator;
 import com.danilo.volles.astronomer.api.util.DateValidator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
