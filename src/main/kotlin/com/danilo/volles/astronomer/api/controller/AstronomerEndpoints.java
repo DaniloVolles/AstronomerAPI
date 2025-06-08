@@ -19,6 +19,6 @@ public interface AstronomerEndpoints {
     ResponseEntity<ApiResponse<List<AstronomerResponseDTO>>> getAstronomersByCity(String city);
     ResponseEntity<ApiResponse<AttributeResponseDTO>> attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO);
     ResponseEntity<ApiResponse<List<CelestialObjectResponseDTO>>> getDiscoveriesByAstronomerName(AstronomerNameDTO astronomer);
-    ResponseEntity<ApiResponse<AstronomerResponseDTO>> updateAstronomeById(UUID id);
+    ResponseEntity<ApiResponse<AstronomerResponseDTO>> updateAstronomerById(UUID id, AstronomerRequestDTO requestDTO);
     ResponseEntity<ApiResponse<AstronomerResponseDTO>> inactivateAstronomerById(UUID id);
 }

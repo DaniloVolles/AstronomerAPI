@@ -1,6 +1,8 @@
 package com.danilo.volles.astronomer.api.model;
 
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
+import com.danilo.volles.astronomer.api.dto.request.UpdateAstronomerRequestDTO;
+import com.danilo.volles.astronomer.api.util.CepValidator;
 import com.danilo.volles.astronomer.api.util.DateValidator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,5 +39,17 @@ public class Astronomer {
         this.researchArea = dto.researchArea();
         this.institution = dto.institution();
         this.address = address;
+    }
+
+    public Astronomer applyUpdates(AstronomerRequestDTO dto, Degree degree, Address address) {
+        this.fullName = dto.fullName();
+        this.birthDate = DateValidator.getLocalDateFromString(dto.birthDate());
+        this.email = dto.email();
+        this.phone = dto.phone();
+        this.degree = degree;
+        this.researchArea = dto.researchArea();
+        this.institution = dto.institution();
+        this.address = address;
+        return this;
     }
 }

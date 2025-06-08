@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.danilo.volles.astronomer.api.util.CepValidator.verifyCepCode;
+
 @Slf4j
 @Component
 public class AstronomerServiceImpl implements AstronomerService {
@@ -85,8 +87,21 @@ public class AstronomerServiceImpl implements AstronomerService {
     }
 
     @Override
-    public AstronomerResponseDTO updateAstronomerById(String name) {
-        return null;
+    public AstronomerResponseDTO updateAstronomerById(UUID id, AstronomerRequestDTO requestDTO) {
+
+        verifyCepCode(requestDTO.cep());
+
+        Degree degree = Degree.fromString(requestDTO.degree());
+        Address address = new Address(addressService.getAddress(requestDTO.cep()));
+
+        Astronomer astronomer = astronomerRepository.findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
+
+        Astronomer updatedAstronomer = astronomer.applyUpdates(requestDTO, degree, address);
+
+        astronomerRepository.save(updatedAstronomer);
+
+        return entityToResponseDTO(updatedAstronomer);
     }
 
     @Override
@@ -97,13 +112,6 @@ public class AstronomerServiceImpl implements AstronomerService {
     private static void verifyEmptyAstronomersList(List<Astronomer> astronomers){
         if (astronomers.isEmpty()) {
             throw new ObjectNotFoundException();
-        }
-    }
-
-    private static void verifyCepCode(String cep) {
-        if (!CepValidator.isCodeBrazilian(cep)) {
-            log.error("Brazilian CEP code expected");
-            throw new InvalidCepCodeException();
         }
     }
 

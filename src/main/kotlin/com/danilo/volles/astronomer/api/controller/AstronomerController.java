@@ -56,9 +56,9 @@ public class AstronomerController implements AstronomerEndpoints {
     @Override
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AstronomerResponseDTO>> getAstronomerById(@PathVariable UUID id) {
-        log.info("[GET] /astronomer/{id} :: Endpoint accessed: getAstronomerById");
+        log.info("[GET] /astronomer/{} :: Endpoint accessed: getAstronomerById", id);
         var astronomer = astronomerService.getAstronomerById(id);
-        log.info("[GET] /astronomer/{id} :: Astronomer returned successfully with id {}", id);
+        log.info("[GET] /astronomer/{} :: Astronomer returned successfully", id);
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomer));
     }
@@ -70,7 +70,7 @@ public class AstronomerController implements AstronomerEndpoints {
     ) {
         log.info("[GET] /astronomer/city :: Endpoint accessed: getAstronomersByCity");
         var astronomers = astronomerService.getAstronomerByCity(city);
-        log.info("[GET] /astronomer/{id} :: Astronomers returned successfully with city name {}", city);
+        log.info("[GET] /astronomer/city :: Astronomers returned successfully with city name {}", city);
         return ResponseEntity
                 .ok(new ApiResponse<>(astronomers));
     }
@@ -87,9 +87,16 @@ public class AstronomerController implements AstronomerEndpoints {
     }
 
     @Override
-    @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> updateAstronomeById(@PathVariable UUID id) {
-        return null;
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<AstronomerResponseDTO>> updateAstronomerById(
+            @PathVariable UUID id,
+            @Valid @RequestBody AstronomerRequestDTO requestDTO
+    ) {
+        log.info("[PATCH] /astronomer/{} :: Endpoint accessed: updateAstronomeById", id);
+        var astronomer = astronomerService.updateAstronomerById(id, requestDTO);
+        log.info("[PATCH] /astronomer/{} :: Astronomer updated successfully", id);
+        return ResponseEntity
+                .ok(new ApiResponse<>(astronomer));
     }
 
     @Override
