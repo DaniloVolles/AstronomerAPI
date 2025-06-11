@@ -1,6 +1,5 @@
 package com.danilo.volles.astronomer.api.controller;
 
-import com.danilo.volles.astronomer.api.dto.request.AstronomerNameDTO;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.DiscoveryAssignmentRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.ApiResponse;
@@ -75,22 +74,26 @@ public class AstronomerController implements AstronomerEndpoints {
     }
 
     @Override
-    @PostMapping("/{id}/discoveries")
+    @PostMapping("/{id}/assign/discoveries")
     public ResponseEntity<ApiResponse<List<CelestialObjectResponseDTO>>> assignDiscoveriesToAstronomer(
             @PathVariable UUID id,
             @Valid @RequestBody DiscoveryAssignmentRequestDTO attibuteRequestDTO
     ) {
         log.info("[POST] /attributeCelestialObjectDiscovery :: Endpoint accessed: attibuteCelestialObjectDiscovery");
         var celestialObjects = astronomerService.assignDiscoveriesToAstronomer(id, attibuteRequestDTO);
-        log.info("[POST] /attributeCelestialObjectDiscovery :: Discoveries attributed successfully");
+        log.info("[POST] /attributeCelestialObjectDiscovery :: Discoveries attributed successfully to id {}", id);
         return ResponseEntity
                 .ok(new ApiResponse<>(celestialObjects));
     }
 
     @Override
-    @GetMapping("/discoveries")
-    public ResponseEntity<ApiResponse<List<CelestialObjectResponseDTO>>> getDiscoveriesByAstronomerName(@RequestBody AstronomerNameDTO astronomer) {
-        return null;
+    @GetMapping("/{id}/discoveries")
+    public ResponseEntity<ApiResponse<List<CelestialObjectResponseDTO>>> getDiscoveriesByAstronomerId(@PathVariable UUID id) {
+        log.info("[GET] /astronomer/discoveries :: Endpoint accessed: getDiscoveriesByAstronomerName");
+        var celestialObjects = astronomerService.getDiscoveriesByAstronomerId(id);
+        log.info("[GET] /astronomer/discoveries :: Discoveries returned successfully with astronomer id {}", id);
+        return ResponseEntity
+                .ok(new ApiResponse<>(celestialObjects));
     }
 
     @Override

@@ -103,15 +103,16 @@ public class AstronomerServiceImpl implements AstronomerService {
     }
 
     @Override
-    public List<CelestialObjectResponseDTO> getDiscoveriesByAstronomerName(String astronomerName) {
+    public List<CelestialObjectResponseDTO> getDiscoveriesByAstronomerId(UUID id) {
 
-        Astronomer astronomer = astronomerRepository.findByFullName(astronomerName);
+        Astronomer astronomer = astronomerRepository.findById(id)
+                .orElseThrow(ObjectNotFoundException::new);
 
         List<CelestialObject> celestialObjects = celestialObjectsRepository.findCelestialObjectsByAstronomerId(astronomer.getId());
 
         if (celestialObjects.isEmpty()) {
-            log.error("No celestial object found with name {}", astronomerName);
-            throw new ObjectNotFoundException("No celestial objects found for this astronomer: " + astronomerName);
+            log.error("No celestial object found with id {}", id);
+            throw new ObjectNotFoundException("No celestial objects found for this astronomer: " + id);
         }
 
         List<CelestialObjectResponseDTO> celestialObjectsResponse = new ArrayList<>();
