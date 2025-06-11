@@ -1,5 +1,9 @@
 package com.danilo.volles.astronomer.api.model;
 
+import com.danilo.volles.astronomer.api.exception.InvalidCelestialObjectTypeValueException;
+
+import java.util.Arrays;
+
 public enum CelestialObjectType {
     STAR,
     PLANET,
@@ -7,5 +11,13 @@ public enum CelestialObjectType {
     DWARF_PLANET,
     ASTEROID,
     COMET,
-    OTHER,
+    OTHER;
+
+    public static CelestialObjectType fromClientValue(
+            com.danilo.volles.celestial.objects.api.wsdl.CelestialObjectType clientType) {
+        return Arrays.stream(CelestialObjectType.values())
+                .filter(type -> type.name().equalsIgnoreCase(clientType.value()))
+                .findFirst()
+                .orElseThrow(InvalidCelestialObjectTypeValueException::new);
+    }
 }

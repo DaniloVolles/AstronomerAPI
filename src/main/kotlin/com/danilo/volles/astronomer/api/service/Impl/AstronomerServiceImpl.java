@@ -1,20 +1,22 @@
 package com.danilo.volles.astronomer.api.service.Impl;
 
+import com.danilo.volles.astronomer.api.client.celestialObjects.CelestialObjectsClient;
 import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
+import com.danilo.volles.astronomer.api.dto.request.DiscoveryAssignmentRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import com.danilo.volles.astronomer.api.exception.ObjectNotFoundException;
-import com.danilo.volles.astronomer.api.model.Address;
-import com.danilo.volles.astronomer.api.model.Astronomer;
-import com.danilo.volles.astronomer.api.model.Degree;
+import com.danilo.volles.astronomer.api.model.*;
 import com.danilo.volles.astronomer.api.repository.AstronomerRepository;
+import com.danilo.volles.astronomer.api.repository.CelestialObjectsRepository;
 import com.danilo.volles.astronomer.api.service.AddressService;
 import com.danilo.volles.astronomer.api.service.AstronomerService;
 import com.danilo.volles.astronomer.api.util.CepValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -26,10 +28,14 @@ public class AstronomerServiceImpl implements AstronomerService {
 
     private final AstronomerRepository astronomerRepository;
     private final AddressService addressService;
+    private final CelestialObjectsRepository celestialObjectsRepository;
+    private final CelestialObjectsClient celestialObjectsClient;
 
-    public AstronomerServiceImpl(AstronomerRepository astronomerRepository, AddressService addressService) {
+    public AstronomerServiceImpl(AstronomerRepository astronomerRepository, AddressService addressService, CelestialObjectsRepository celestialObjectsRepository, CelestialObjectsClient celestialObjectsClient) {
         this.astronomerRepository = astronomerRepository;
         this.addressService = addressService;
+        this.celestialObjectsRepository = celestialObjectsRepository;
+        this.celestialObjectsClient = celestialObjectsClient;
     }
 
     @Override
@@ -78,8 +84,40 @@ public class AstronomerServiceImpl implements AstronomerService {
     }
 
     @Override
-    public CelestialObjectResponseDTO getDiscoveriesByAstronomerName(String AstronomerName) {
-        return null;
+    public List<CelestialObjectResponseDTO> assignDiscoveriesToAstronomer(UUID astronomerId, DiscoveryAssignmentRequestDTO requestDTO) {
+
+        Astronomer astronomer = findAstronomerById(astronomerId);
+
+        List<CelestialObjectResponseDTO> responseDTOList = new ArrayList<>();
+        List<CelestialObject> celestialObjects = new ArrayList<>();
+
+        requestDTO.celestialObjectNameList().forEach(name -> {
+            var object = celestialObjectsClient.getCelestialObjectByName(name);
+            celestialObjects.add(new CelestialObject(object, astronomer.getId()));
+            responseDTOList.add(new CelestialObjectResponseDTO(object.getCelestialObject()));
+        });
+
+        celestialObjectsRepository.saveAll(celestialObjects);
+
+        return responseDTOList;
+    }
+
+    @Override
+    public List<CelestialObjectResponseDTO> getDiscoveriesByAstronomerName(String astronomerName) {
+
+        Astronomer astronomer = astronomerRepository.findByFullName(astronomerName);
+
+        List<CelestialObject> celestialObjects = celestialObjectsRepository.findCelestialObjectsByAstronomerId(astronomer.getId());
+
+        if (celestialObjects.isEmpty()) {
+            log.error("No celestial object found with name {}", astronomerName);
+            throw new ObjectNotFoundException("No celestial objects found for this astronomer: " + astronomerName);
+        }
+
+        List<CelestialObjectResponseDTO> celestialObjectsResponse = new ArrayList<>();
+        celestialObjects.forEach(c -> celestialObjectsResponse.add(new CelestialObjectResponseDTO(c.getName(), c.getType())));
+
+        return celestialObjectsResponse;
     }
 
     @Override
@@ -116,13 +154,13 @@ public class AstronomerServiceImpl implements AstronomerService {
 
     private Astronomer findAstronomerById(UUID id) {
         return astronomerRepository.findById(id)
-                .orElseThrow(()->{
+                .orElseThrow(() -> {
                     log.error("Astronomer with id {} not found", id);
                     return new ObjectNotFoundException();
                 });
     }
 
-    private static void verifyEmptyAstronomersList(List<Astronomer> astronomers){
+    private static void verifyEmptyAstronomersList(List<Astronomer> astronomers) {
         if (astronomers.isEmpty()) {
             log.error("No astronomers found");
             throw new ObjectNotFoundException();

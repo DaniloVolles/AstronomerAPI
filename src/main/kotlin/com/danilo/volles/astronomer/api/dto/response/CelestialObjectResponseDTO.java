@@ -6,4 +6,11 @@ public record CelestialObjectResponseDTO(
         String name,
         CelestialObjectType type
 ) {
+
+    public CelestialObjectResponseDTO(com.danilo.volles.celestial.objects.api.wsdl.CelestialObject celestialObjectFromClient) {
+        this(
+                celestialObjectFromClient.getName(),
+                CelestialObjectType.fromClientValue(celestialObjectFromClient.getCelestialObjectType())
+        );
+    }
 }

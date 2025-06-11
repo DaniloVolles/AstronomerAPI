@@ -1,21 +1,28 @@
 package com.danilo.volles.astronomer.api.client.celestialObjects;
 
+import com.danilo.volles.astronomer.api.exception.ObjectNotFoundException;
 import com.danilo.volles.celestial.objects.api.wsdl.*;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
 
+import java.util.Objects;
+import java.util.Optional;
+
 public class CelestialObjectsClient extends WebServiceGatewaySupport {
 
-    public GetAllCelestialObjectsResponse getAllCelestialObjects() {
+    private final String DESTINATION_URI = "http://localhost:9090/ws";
+    private final String ACTION_CALLBACK = "http://www.danilovolles.com/celestialObjects";
 
-        GetAllCelestialObjectsRequest req = new GetAllCelestialObjectsRequest();
+    public GetCelestialObjectByNameResponse getCelestialObjectByName(String celestialObjectName) {
 
-        return (GetAllCelestialObjectsResponse) getWebServiceTemplate()
+        GetCelestialObjectByNameRequest request = new GetCelestialObjectByNameRequest();
+        request.setName(celestialObjectName);
+
+         return (GetCelestialObjectByNameResponse) getWebServiceTemplate()
                 .marshalSendAndReceive(
-                        "http://localhost:9090/ws",
-                        req,
-                        new SoapActionCallback(
-                                "http://www.danilovolles.com/celestialObjects"
-                        ));
+                        DESTINATION_URI,
+                        request,
+                        new SoapActionCallback(ACTION_CALLBACK)
+                );
     }
 }

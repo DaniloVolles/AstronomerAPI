@@ -6,4 +6,7 @@ public class ObjectNotFoundException extends RuntimeException {
     public ObjectNotFoundException() {
         super(Constants.Error.OBJECT_NOT_FOUND);
     }
+    public ObjectNotFoundException(String message) {
+        super(message);
+    }
 }

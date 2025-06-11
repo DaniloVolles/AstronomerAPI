@@ -2,10 +2,9 @@ package com.danilo.volles.astronomer.api.controller;
 
 import com.danilo.volles.astronomer.api.dto.request.AstronomerNameDTO;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
-import com.danilo.volles.astronomer.api.dto.request.AttributeRequestDTO;
+import com.danilo.volles.astronomer.api.dto.request.DiscoveryAssignmentRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.ApiResponse;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
-import com.danilo.volles.astronomer.api.dto.response.AttributeResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import com.danilo.volles.astronomer.api.service.AstronomerService;
 import jakarta.validation.Valid;
@@ -76,8 +75,16 @@ public class AstronomerController implements AstronomerEndpoints {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<AttributeResponseDTO>> attibuteCelestialObjectDiscovery(AttributeRequestDTO attibuteRequestDTO) {
-        return null;
+    @PostMapping("/{id}/discoveries")
+    public ResponseEntity<ApiResponse<List<CelestialObjectResponseDTO>>> assignDiscoveriesToAstronomer(
+            @PathVariable UUID id,
+            @Valid @RequestBody DiscoveryAssignmentRequestDTO attibuteRequestDTO
+    ) {
+        log.info("[POST] /attributeCelestialObjectDiscovery :: Endpoint accessed: attibuteCelestialObjectDiscovery");
+        var celestialObjects = astronomerService.assignDiscoveriesToAstronomer(id, attibuteRequestDTO);
+        log.info("[POST] /attributeCelestialObjectDiscovery :: Discoveries attributed successfully");
+        return ResponseEntity
+                .ok(new ApiResponse<>(celestialObjects));
     }
 
     @Override
