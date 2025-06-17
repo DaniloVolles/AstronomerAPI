@@ -3,6 +3,7 @@ package com.danilo.volles.astronomer.api.controller;
 import com.danilo.volles.astronomer.api.client.celestialObjects.CelestialObjectsClient;
 import com.danilo.volles.astronomer.api.service.AddressService;
 import com.danilo.volles.celestial.objects.api.wsdl.GetAllCelestialObjectsResponse;
+import com.danilo.volles.celestial.objects.api.wsdl.GetCelestialObjectByNameResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class TestController {
     }
 
     @GetMapping("/allCelestialObjects")
-    public GetAllCelestialObjectsResponse getAllCelestialObjects() {
-        return celestialObjectsClient.getAllCelestialObjects();
+    public GetCelestialObjectByNameResponse getAllCelestialObjects() {
+        return celestialObjectsClient.getCelestialObjectByName("Halley");
     }
 }

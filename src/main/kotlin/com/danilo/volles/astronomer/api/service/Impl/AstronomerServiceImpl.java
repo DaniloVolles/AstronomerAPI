@@ -7,12 +7,14 @@ import com.danilo.volles.astronomer.api.dto.request.DiscoveryAssignmentRequestDT
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
 import com.danilo.volles.astronomer.api.exception.ObjectNotFoundException;
-import com.danilo.volles.astronomer.api.model.*;
+import com.danilo.volles.astronomer.api.model.Address;
+import com.danilo.volles.astronomer.api.model.Astronomer;
+import com.danilo.volles.astronomer.api.model.CelestialObject;
+import com.danilo.volles.astronomer.api.model.Degree;
 import com.danilo.volles.astronomer.api.repository.AstronomerRepository;
 import com.danilo.volles.astronomer.api.repository.CelestialObjectsRepository;
 import com.danilo.volles.astronomer.api.service.AddressService;
 import com.danilo.volles.astronomer.api.service.AstronomerService;
-import com.danilo.volles.astronomer.api.util.CepValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -41,11 +43,15 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO) {
 
-        CepValidator.verifyCepCode(requestDTO.cep());
+        log.info("passei por aqui");
 
         Degree degree = Degree.fromString(requestDTO.degree());
+        log.info("passei por aqui - Degree {}", degree);
+
+        System.out.println(requestDTO.cep());
 
         ViaCepResponse cepResponse = addressService.getAddress(requestDTO.cep());
+        log.info("passei por aqui - ViaCepResponse {}", cepResponse);
         Address address = new Address(cepResponse);
 
         Astronomer savedAstronomer = astronomerRepository.save(new Astronomer(requestDTO, degree, address));
@@ -124,7 +130,7 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public AstronomerResponseDTO updateAstronomerById(UUID id, AstronomerRequestDTO requestDTO) {
 
-        CepValidator.verifyCepCode(requestDTO.cep());
+//        CepValidator.verifyCepCode(requestDTO.cep());
 
         Degree degree = Degree.fromString(requestDTO.degree());
         Address address = new Address(addressService.getAddress(requestDTO.cep()));

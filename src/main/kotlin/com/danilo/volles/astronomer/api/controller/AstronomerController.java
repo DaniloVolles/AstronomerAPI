@@ -18,14 +18,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-@Validated
 @RestController
 @RequestMapping("/astronomer")
 public class AstronomerController implements AstronomerEndpoints {
 
     private final AstronomerService astronomerService;
 
-    public AstronomerController(AstronomerService astronomerService) {
+    public AstronomerController(AstronomerService astronomerService)   {
         this.astronomerService = astronomerService;
     }
 
@@ -110,7 +109,7 @@ public class AstronomerController implements AstronomerEndpoints {
     }
 
     @Override
-    @PatchMapping("/inactive/{id}")
+    @PatchMapping("/deactivate/{id}")
     public ResponseEntity<ApiResponse<AstronomerResponseDTO>> deactivateAstronomerById(@PathVariable UUID id) {
         log.info("[PATCH] /astronomer/inactive/{} :: Endpoint accessed: inactivateAstronomerById", id);
         var astronomer = astronomerService.deactivateAstronomerById(id);

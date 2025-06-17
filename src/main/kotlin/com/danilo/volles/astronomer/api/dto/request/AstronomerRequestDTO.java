@@ -2,20 +2,19 @@ package com.danilo.volles.astronomer.api.dto.request;
 
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
+
 public record AstronomerRequestDTO(
 
         @NotBlank(message = "fullName field is required")
-        @Pattern(regexp = "^[A-Za-zÀ-ÿ' ]+$", message = "fullName must contain only letters and spaces")
+        @Pattern(regexp = "^[\\p{L} '\\-]+$", message = "fullName must contain only letters and spaces")
         String fullName,
 
-        @NotBlank(message = "birthDate field is required")
+        @NotNull(message = "birthDate field is required")
         @Past(message = "birthDate must be a past date")
-        @Pattern(
-                regexp = "^\\d{4}-\\d{2}-\\d{2}$",
-                message = "birthDate must be in the format 'YYYY-MM-DD'")
-        String birthDate,
+        LocalDate birthDate,
 
-        @Email
+        @Email(message = "must be a valid email")
         @NotBlank(message = "email field is required")
         String email,
 
