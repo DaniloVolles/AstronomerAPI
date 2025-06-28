@@ -6,6 +6,7 @@ import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.DiscoveryAssignmentRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;
 import com.danilo.volles.astronomer.api.dto.response.CelestialObjectResponseDTO;
+import com.danilo.volles.astronomer.api.exception.ObjectAlreadyExistsException;
 import com.danilo.volles.astronomer.api.exception.ObjectNotFoundException;
 import com.danilo.volles.astronomer.api.model.Address;
 import com.danilo.volles.astronomer.api.model.Astronomer;
@@ -33,7 +34,10 @@ public class AstronomerServiceImpl implements AstronomerService {
     private final CelestialObjectsRepository celestialObjectsRepository;
     private final CelestialObjectsClient celestialObjectsClient;
 
-    public AstronomerServiceImpl(AstronomerRepository astronomerRepository, AddressService addressService, CelestialObjectsRepository celestialObjectsRepository, CelestialObjectsClient celestialObjectsClient) {
+    public AstronomerServiceImpl(AstronomerRepository astronomerRepository,
+                                 AddressService addressService,
+                                 CelestialObjectsRepository celestialObjectsRepository,
+                                 CelestialObjectsClient celestialObjectsClient) {
         this.astronomerRepository = astronomerRepository;
         this.addressService = addressService;
         this.celestialObjectsRepository = celestialObjectsRepository;
@@ -41,17 +45,14 @@ public class AstronomerServiceImpl implements AstronomerService {
     }
 
     @Override
+
     public AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO) {
 
-        log.info("passei por aqui");
+        verifyAstronomerAlreadyExists(requestDTO.email());
 
         Degree degree = Degree.fromString(requestDTO.degree());
-        log.info("passei por aqui - Degree {}", degree);
-
-        System.out.println(requestDTO.cep());
 
         ViaCepResponse cepResponse = addressService.getAddress(requestDTO.cep());
-        log.info("passei por aqui - ViaCepResponse {}", cepResponse);
         Address address = new Address(cepResponse);
 
         Astronomer savedAstronomer = astronomerRepository.save(new Astronomer(requestDTO, degree, address));
@@ -130,8 +131,6 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public AstronomerResponseDTO updateAstronomerById(UUID id, AstronomerRequestDTO requestDTO) {
 
-//        CepValidator.verifyCepCode(requestDTO.cep());
-
         Degree degree = Degree.fromString(requestDTO.degree());
         Address address = new Address(addressService.getAddress(requestDTO.cep()));
 
@@ -182,5 +181,13 @@ public class AstronomerServiceImpl implements AstronomerService {
                 astronomer.getInstitution(),
                 astronomer.isActive()
         );
+    }
+
+    private void verifyAstronomerAlreadyExists(String email) {
+        Astronomer astronomer = astronomerRepository.findByEmail(email);
+        if (astronomer != null) {
+            log.error("Astronomer with email {} not found", email);
+            throw new ObjectAlreadyExistsException();
+        }
     }
 }

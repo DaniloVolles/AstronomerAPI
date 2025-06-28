@@ -39,6 +39,13 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse<>(ex.getMessage()));
     }
 
+    @ExceptionHandler(value = ObjectAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse<String>> objectAlreadyExistsExceptionHandler(ObjectAlreadyExistsException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(new ErrorResponse<>(ex.getMessage()));
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse<String>> handleValidation(MethodArgumentNotValidException exception) {
         List<String> errorMessages = exception.getBindingResult().getFieldErrors()
@@ -54,6 +61,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse<String>> handleGenericException(Exception ex) {
         return ResponseEntity
                 .internalServerError()
-                .body(new ErrorResponse<>("HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()"));
+                .body(new ErrorResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
     }
 }
