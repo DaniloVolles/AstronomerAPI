@@ -1,6 +1,5 @@
 package com.danilo.volles.astronomer.api.exception.handler;
 
-import com.danilo.volles.astronomer.api.dto.response.ApiResponse;
 import com.danilo.volles.astronomer.api.dto.response.ErrorResponse;
 import com.danilo.volles.astronomer.api.exception.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -46,7 +45,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse<>(ex.getMessage()));
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    /*@ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse<String>> handleValidation(MethodArgumentNotValidException exception) {
         List<String> errorMessages = exception.getBindingResult().getFieldErrors()
                 .stream()
@@ -55,7 +54,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(new ErrorResponse<>(errorMessages));
-    }
+    }*/
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse<String>> handleGenericException(Exception ex) {

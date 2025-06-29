@@ -45,7 +45,6 @@ public class AstronomerServiceImpl implements AstronomerService {
     }
 
     @Override
-
     public AstronomerResponseDTO saveAstronomer(AstronomerRequestDTO requestDTO) {
 
         verifyAstronomerAlreadyExists(requestDTO.email());

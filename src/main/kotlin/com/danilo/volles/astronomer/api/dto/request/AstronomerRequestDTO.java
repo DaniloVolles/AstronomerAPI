@@ -1,5 +1,6 @@
 package com.danilo.volles.astronomer.api.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -34,6 +35,7 @@ public record AstronomerRequestDTO(
         @Size(min = 3, max = 75, message = "institution must be between 3 and 75 characters")
         String institution,
 
+        @Schema(description = "Cep code from where the astronomer resides", example = "69980000")
         @NotBlank(message = "cep field is required")
         @Pattern(
                 regexp = "^\\d{5}-?\\d{3}$",
