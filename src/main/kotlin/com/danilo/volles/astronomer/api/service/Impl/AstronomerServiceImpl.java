@@ -185,7 +185,7 @@ public class AstronomerServiceImpl implements AstronomerService {
     private void verifyAstronomerAlreadyExists(String email) {
         Astronomer astronomer = astronomerRepository.findByEmail(email);
         if (astronomer != null) {
-            log.error("Astronomer with email {} not found", email);
+            log.error("Astronomer with email {} already found", email);
             throw new ObjectAlreadyExistsException();
         }
     }

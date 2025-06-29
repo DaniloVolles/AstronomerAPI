@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse<>(ex.getMessage()));
     }
 
-    /*@ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse<String>> handleValidation(MethodArgumentNotValidException exception) {
         List<String> errorMessages = exception.getBindingResult().getFieldErrors()
                 .stream()
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(new ErrorResponse<>(errorMessages));
-    }*/
+    }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponse<String>> handleGenericException(Exception ex) {
