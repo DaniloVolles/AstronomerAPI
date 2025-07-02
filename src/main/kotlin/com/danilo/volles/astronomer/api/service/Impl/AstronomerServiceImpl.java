@@ -23,7 +23,28 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
+/**
+ * Implementation of {@link AstronomerService}, responsible for handling the core business logic
+ * related to astronomers and their celestial discoveries.
+ *
+ * <p>
+ * This class integrates with:
+ * <ul>
+ *     <li>{@code AstronomerRepository} for persistence</li>
+ *     <li>{@code CelestialObjectsClient} to fetch celestial object data</li>
+ *     <li>{@code AddressService} for address resolution</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * It ensures consistency in domain rules such as:
+ * <ul>
+ *     <li>Preventing duplicate astronomers</li>
+ *     <li>Validating and assigning discoveries</li>
+ *     <li>Managing deactivation and update flows</li>
+ * </ul>
+ * </p>
+ */
 @Slf4j
 @Component
 public class AstronomerServiceImpl implements AstronomerService {
