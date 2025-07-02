@@ -14,7 +14,6 @@ import com.danilo.volles.astronomer.api.model.CelestialObject;
 import com.danilo.volles.astronomer.api.model.Degree;
 import com.danilo.volles.astronomer.api.repository.AstronomerRepository;
 import com.danilo.volles.astronomer.api.repository.CelestialObjectsRepository;
-import com.danilo.volles.astronomer.api.service.AddressService;
 import com.danilo.volles.astronomer.api.service.AstronomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,12 +29,12 @@ import java.util.stream.Collectors;
 public class AstronomerServiceImpl implements AstronomerService {
 
     private final AstronomerRepository astronomerRepository;
-    private final AddressService addressService;
+    private final AddressServiceImpl addressService;
     private final CelestialObjectsRepository celestialObjectsRepository;
     private final CelestialObjectsClient celestialObjectsClient;
 
     public AstronomerServiceImpl(AstronomerRepository astronomerRepository,
-                                 AddressService addressService,
+                                 AddressServiceImpl addressService,
                                  CelestialObjectsRepository celestialObjectsRepository,
                                  CelestialObjectsClient celestialObjectsClient) {
         this.astronomerRepository = astronomerRepository;
@@ -111,8 +110,7 @@ public class AstronomerServiceImpl implements AstronomerService {
     @Override
     public List<CelestialObjectResponseDTO> getDiscoveriesByAstronomerId(UUID id) {
 
-        Astronomer astronomer = astronomerRepository.findById(id)
-                .orElseThrow(ObjectNotFoundException::new);
+        Astronomer astronomer = findAstronomerById(id);
 
         List<CelestialObject> celestialObjects = celestialObjectsRepository.findCelestialObjectsByAstronomerId(astronomer.getId());
 
