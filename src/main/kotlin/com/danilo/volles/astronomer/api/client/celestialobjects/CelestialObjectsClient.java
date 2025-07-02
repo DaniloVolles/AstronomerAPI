@@ -1,13 +1,11 @@
-package com.danilo.volles.astronomer.api.client.celestialObjects;
+package com.danilo.volles.astronomer.api.client.celestialobjects;
 
 import com.danilo.volles.astronomer.api.exception.ObjectNotFoundException;
-import com.danilo.volles.celestial.objects.api.wsdl.*;
+import com.danilo.volles.celestial.objects.api.wsdl.GetCelestialObjectByNameRequest;
+import com.danilo.volles.celestial.objects.api.wsdl.GetCelestialObjectByNameResponse;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 import org.springframework.ws.soap.client.core.SoapActionCallback;
-
-import java.util.Objects;
-import java.util.Optional;
 
 public class CelestialObjectsClient extends WebServiceGatewaySupport {
 

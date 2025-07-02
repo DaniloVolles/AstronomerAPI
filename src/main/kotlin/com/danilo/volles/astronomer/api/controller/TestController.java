@@ -1,6 +1,6 @@
 package com.danilo.volles.astronomer.api.controller;
 
-import com.danilo.volles.astronomer.api.client.celestialObjects.CelestialObjectsClient;
+import com.danilo.volles.astronomer.api.client.celestialobjects.CelestialObjectsClient;
 import com.danilo.volles.astronomer.api.service.Impl.AddressServiceImpl;
 import com.danilo.volles.celestial.objects.api.wsdl.GetCelestialObjectByNameResponse;
 import org.springframework.web.bind.annotation.GetMapping;

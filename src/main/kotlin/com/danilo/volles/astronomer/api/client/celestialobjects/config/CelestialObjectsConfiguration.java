@@ -1,6 +1,6 @@
-package com.danilo.volles.astronomer.api.client.celestialObjects.config;
+package com.danilo.volles.astronomer.api.client.celestialobjects.config;
 
-import com.danilo.volles.astronomer.api.client.celestialObjects.CelestialObjectsClient;
+import com.danilo.volles.astronomer.api.client.celestialobjects.CelestialObjectsClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;

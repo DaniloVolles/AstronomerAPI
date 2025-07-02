@@ -12,7 +12,7 @@ public record ApiResponseDTO<T>(
 
         @Schema(description = "Actual data returned by the API", example = "« Generic Data »")
         T data
-){
+) {
 
     public ApiResponseDTO(T data) {
         this(Instant.now(), data);

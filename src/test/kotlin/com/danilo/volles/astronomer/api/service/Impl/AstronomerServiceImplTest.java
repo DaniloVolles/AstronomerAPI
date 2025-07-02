@@ -1,8 +1,8 @@
 package com.danilo.volles.astronomer.api.service.Impl;
 
 import com.danilo.volles.astronomer.api.TestUtils;
-import com.danilo.volles.astronomer.api.client.celestialObjects.CelestialObjectsClient;
-import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
+import com.danilo.volles.astronomer.api.client.celestialobjects.CelestialObjectsClient;
+import com.danilo.volles.astronomer.api.client.cep.dto.ViaCepResponse;
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
 import com.danilo.volles.astronomer.api.dto.request.DiscoveryAssignmentRequestDTO;
 import com.danilo.volles.astronomer.api.dto.response.AstronomerResponseDTO;

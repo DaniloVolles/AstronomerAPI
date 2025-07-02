@@ -8,5 +8,6 @@ import java.util.UUID;
 
 public interface AstronomerRepository extends MongoRepository<Astronomer, UUID> {
     Astronomer findByEmail(String name);
+
     List<Astronomer> findAllByAddress_CityIgnoreCase(String city);
 }

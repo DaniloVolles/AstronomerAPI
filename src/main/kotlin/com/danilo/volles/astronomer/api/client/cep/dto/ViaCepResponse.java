@@ -1,4 +1,4 @@
-package com.danilo.volles.astronomer.api.client.cep.responseDto;
+package com.danilo.volles.astronomer.api.client.cep.dto;
 
 public record ViaCepResponse(
         String cep,

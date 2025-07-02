@@ -1,6 +1,6 @@
 package com.danilo.volles.astronomer.api.model;
 
-import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
+import com.danilo.volles.astronomer.api.client.cep.dto.ViaCepResponse;
 import com.danilo.volles.astronomer.api.util.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Data;

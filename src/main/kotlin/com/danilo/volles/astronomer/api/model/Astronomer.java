@@ -1,7 +1,6 @@
 package com.danilo.volles.astronomer.api.model;
 
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO;
-import com.danilo.volles.astronomer.api.util.DateValidator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +32,7 @@ public class Astronomer {
     public Astronomer(AstronomerRequestDTO dto, Degree degree, Address address) {
         this.id = UUID.randomUUID();
         this.fullName = dto.fullName();
-        this.birthDate = DateValidator.getLocalDateFromString(dto.birthDate());
+        this.birthDate = dto.birthDate();
         this.email = dto.email();
         this.phone = dto.phone();
         this.degree = degree;
@@ -45,7 +44,7 @@ public class Astronomer {
 
     public Astronomer applyUpdates(AstronomerRequestDTO dto, Degree degree, Address address) {
         this.fullName = dto.fullName();
-        this.birthDate = DateValidator.getLocalDateFromString(dto.birthDate());
+        this.birthDate = dto.birthDate();
         this.email = dto.email();
         this.phone = dto.phone();
         this.degree = degree;
@@ -56,7 +55,7 @@ public class Astronomer {
         return this;
     }
 
-    public void deactivate(){
+    public void deactivate() {
         this.active = false;
     }
 }

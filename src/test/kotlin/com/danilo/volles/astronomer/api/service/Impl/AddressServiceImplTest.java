@@ -2,8 +2,7 @@ package com.danilo.volles.astronomer.api.service.Impl;
 
 import com.danilo.volles.astronomer.api.TestUtils;
 import com.danilo.volles.astronomer.api.client.cep.CepClient;
-import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
-import com.danilo.volles.astronomer.api.service.AddressService;
+import com.danilo.volles.astronomer.api.client.cep.dto.ViaCepResponse;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

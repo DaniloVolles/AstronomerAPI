@@ -1,6 +1,6 @@
 package com.danilo.volles.astronomer.api.client.cep;
 
-import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
+import com.danilo.volles.astronomer.api.client.cep.dto.ViaCepResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

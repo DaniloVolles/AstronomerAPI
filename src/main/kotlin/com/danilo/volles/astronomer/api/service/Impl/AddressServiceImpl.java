@@ -1,7 +1,7 @@
 package com.danilo.volles.astronomer.api.service.Impl;
 
 import com.danilo.volles.astronomer.api.client.cep.CepClient;
-import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse;
+import com.danilo.volles.astronomer.api.client.cep.dto.ViaCepResponse;
 import com.danilo.volles.astronomer.api.service.AddressService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

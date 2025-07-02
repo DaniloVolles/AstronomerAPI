@@ -1,12 +1,12 @@
 package com.danilo.volles.astronomer.api
 
-import com.danilo.volles.astronomer.api.client.cep.responseDto.ViaCepResponse
+import com.danilo.volles.astronomer.api.client.cep.dto.ViaCepResponse
 import com.danilo.volles.astronomer.api.dto.request.AstronomerRequestDTO
 import com.danilo.volles.astronomer.api.model.Address
 import com.danilo.volles.astronomer.api.model.Astronomer
 import com.danilo.volles.astronomer.api.model.Degree
 import java.time.LocalDate
-import java.util.UUID
+import java.util.*
 
 /**
  * Utility object for creating mock data used in unit tests.
@@ -29,9 +29,9 @@ import java.util.UUID
  * ```
  * ```
  * // Java
- * Astronomer astronomer = TestUtils.mockAstronomer(UUID.randomUUID()
- * AstronomerRequestDTO requestDto = TestUtils.mockAstronomerRequestDTO()
- * ViaCepResponse viaCepResponse = TestUtils.mockViaCepResponse()
+ * Astronomer astronomer = TestUtils.mockAstronomer(UUID.randomUUID();
+ * AstronomerRequestDTO requestDto = TestUtils.mockAstronomerRequestDTO();
+ * ViaCepResponse viaCepResponse = TestUtils.mockViaCepResponse();
  * ```
  *
  * Note: This object is intended exclusively for test environments and should not be used in production code.

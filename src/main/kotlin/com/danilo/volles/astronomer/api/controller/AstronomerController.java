@@ -28,11 +28,11 @@ import java.util.UUID;
 @Slf4j
 @RestController
 @RequestMapping("/astronomer")
-public class AstronomerController{
+public class AstronomerController {
 
     private final AstronomerService astronomerService;
 
-    public AstronomerController(AstronomerService astronomerService)   {
+    public AstronomerController(AstronomerService astronomerService) {
         this.astronomerService = astronomerService;
     }
 
