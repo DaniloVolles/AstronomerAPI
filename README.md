@@ -20,10 +20,10 @@ a SOAP API and an open API (ViaCep).
 **PT-BR:** <br>
 A tentativa aqui foi tentar deixar a aplicação "beeem redondinha", então eu tentei minimizar diversos
 pontos de melhoria, mas dois pontos ainda me saltam aos olhos:
-1. **Cobertura de testes unitários**: atualmente os testes abrangem apenas a camada de _service_ e
-   garantem cerca de 50% de cobertura total. Expandi-los para controllers, clients e cenários de erro aumentará
+1. **Cobertura de testes unitários:** atualmente os testes abrangem apenas a camada de _service_ e
+   garantem cerca de 50% de cobertura total. Expandi-los para _controllers_, _clients_ e _cenários de erro_ aumentará
    a confiabilidade do sistema.
-2. **Externalização de variáveis “mágicas”**: mover _URLs_, _namespaces_ e outros literais para o arquivo de
+2. **Externalização de variáveis “mágicas”:** mover _URLs_, _namespaces_ e outros literais para o arquivo de
    propriedades (`application.properties`), isso melhoraria a configurabilidade e facilita a parametrização
    em diferentes ambientes (desenvolvimento, homologação, etc).
 
@@ -31,24 +31,24 @@ pontos de melhoria, mas dois pontos ainda me saltam aos olhos:
 The goal here was to make the application as “solid” as possible, so I tried to minimize several
 points for improvement — but two still stand out:
 
-Unit test coverage: currently, the tests only cover the service layer and
-achieve around 50% total coverage. Expanding tests to controllers, clients, and error scenarios will increase
+1. **Unit test coverage:** currently, the tests only cover the _service_ layer and
+achieve around 50% total coverage. Expanding tests to _controllers_, _clients_, and _error scenarios_ will increase
 the system’s reliability.
 
-Externalization of “magic” variables: move URLs, namespaces, and other literals to the
-properties file (application.properties), which would improve configurability and ease parameterization
+2. **Externalization of “magic” variables:** move _URLs_, _namespaces_, and other literals to the
+properties file (`application.properties`), which would improve configurability and ease parameterization
 across different environments (development, staging, etc).
 
 ## 🌌 Sobre o Projeto | About the Project
 
-**PT-BR:** <br>
+**PT-BR:**  
 Como também foi dito na documentação da CelestialObjectAPI eu sempre amei o espaço,
 então poder fazer uma api que eu pudesse registrar o nome do Galileu Galilei como um
 dos registros do banco foi extremamente divertido.
 
 Confira, por favor, o diagrama abaixo do relacionamento das entidades desse projeto!
 
-**EN:** <br>
+**EN:**  
 As mentioned in the CelestialObjectAPI documentation, I've always loved space,
 so being able to create an API where I could register the name of Galileo Galilei as one
 of the database entries was extremely fun.
@@ -99,9 +99,11 @@ _Recomendação | Recommendation: IntelliJ IDEA_
 ```bash
 mvn clean test jacoco:report
 ```
-**PT-BR:** Para acessar o report encontre o caminho abaixo, lá você
-verá os gráficos dos testes <br>
-**EN:** To access the report, find the path below, there you will see
+**PT-BR:**  
+Para acessar o report encontre o caminho abaixo, lá você
+verá os gráficos dos testes   
+**EN:**   
+To access the report, find the path below, there you will see
 the tests charts
 
 ```text
